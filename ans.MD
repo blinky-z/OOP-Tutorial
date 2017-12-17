@@ -227,9 +227,10 @@ public:
 
 int main() {
     example obj;
-    //obj.s = "private access is set"; //Ошибка: Мы пытаемся получить доступ к переменной вне области видимости класса.
-    obj.initialize_string("private modifier is set"); // Для того, чтобы получить доступ к переменной, объявленной как private,
-    // надо обращаться к ней через паблик функции в классе
+    //obj.s = "private access is set"; //Ошибка: Мы пытаемся получить доступ к переменной вне области
+    //видимости класса.
+    obj.initialize_string("private modifier is set"); // Для того, чтобы получить доступ к переменной,
+    // объявленной как private, надо обращаться к ней через паблик функции в классе
     obj.print_string(); // private modifier is set
     return 0;
 }
@@ -239,7 +240,7 @@ int main() {
 классов потомков, созданных на основе родительского (также это известно как наследовние, разобранное и описанное выше).
 
 Пример:
-``c++
+```c++
 #include <iostream>
 using namespace std;
 
