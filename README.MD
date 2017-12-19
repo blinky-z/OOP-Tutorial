@@ -385,5 +385,116 @@ int main() {
 
 ## Виртуальная функция. Чистая виртуальная функция
 
-**Виртуальная функция** - это метод в родительском классе, который можно переопределить в его дочерних классах. Это нужно
-для того, чтобы пользователь мог вызывать необходимые методы одного класса в зависимости от типа объекта (см. [Базовые принципы ООП; Полиморфизм](https://github.com/TwITe/OOP-Learn#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%9E%D0%9E%D0%9F)).
+**Виртуальная функция** - это метод в родительском классе, который можно переопределить в его дочерних классах. Это позволяет
+ пользователю вызывать необходимые методы в зависимости от типа объекта (см. [Базовые принципы ООП; Полиморфизм](https://github.com/TwITe/OOP-Learn#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%9E%D0%9E%D0%9F)).
+
+ Пример:
+```c++
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Base {
+public:
+    virtual void print() {
+        cout << "In parent class";
+    }
+
+    void print_non_virtual_function() {
+        cout << "In parent class";
+    }
+
+};
+
+class Derived:public Base {
+public:
+    void print() override {
+        cout << "In child class";
+    }
+
+    void print_non_virtual_function() {
+
+        cout << "In child class";
+    }
+};
+
+
+int main () {
+    Base* baseptr;
+    Derived derivedptr;
+
+    baseptr = &derivedptr; // Объект типа дочерного класса
+
+    baseptr->print(); // In child class
+    cout << endl;
+    baseptr->print_non_virtual_function(); // In parent class
+    cout << endl;
+
+    baseptr = new Base; // Объект типа родительского класса
+
+    baseptr->print(); // In parent class
+    cout << endl;
+    baseptr->print_non_virtual_function(); // In parent class
+    return 0;
+}
+```
+
+Как видно из примера, функция **print_non_virtual_function()**, вызванная из объекта типа **Derived**, все равно вызывает функцию из
+родительского класса. Это происходит потому, что функция **print_non_virtual_function()** вызывается в зависимости от типа *указателя*,
+а не объекта. Виртуальные функции же решают эту проблему и позволяют вызывать методы на основе типа *объекта*, что и происходит с
+функцией **print()**, объявленной как *virtual*.
+
+Попробуем решить эту проблему, объявив функцию print_non_virtual_function() как виртуальную:
+```c++
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Base {
+public:
+    virtual void print() {
+        cout << "In parent class";
+    }
+
+    virtual void print_non_virtual_function() {
+        cout << "In parent class";
+    }
+
+};
+
+class Derived:public Base {
+public:
+    void print() override {
+        cout << "In child class";
+    }
+
+    void print_non_virtual_function() override {
+
+        cout << "In child class";
+    }
+};
+
+
+int main () {
+    Base* baseptr;
+    Derived derivedptr;
+
+    baseptr = &derivedptr; // Объект типа дочерного класса
+
+    baseptr->print(); // In child class
+    cout << endl;
+    baseptr->print_non_virtual_function(); // In child class // Проблема решена: метод вызвался, соответствуя типу объекта
+    cout << endl;
+
+    baseptr = new Base; // Объект типа родительского класса
+
+    baseptr->print(); // In parent class
+    cout << endl;
+    baseptr->print_non_virtual_function(); // In parent class
+    return 0;
+}
+```
+
+В главе [Базовые принципы ООП: Полиморфизм](https://github.com/TwITe/OOP-Learn#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%9E%D0%9E%D0%9F) функции вызывались также в зависимости от типа указателя, что называется **Compile time polymorhism**.
+Виртуальные функции же, в свою очередь, поддерживают **Runtime polymorphism**, позволяя вызывать методы в соответствии с функционалом класса, на который
+ведет указатель указатель, а не самим типом указателя.
