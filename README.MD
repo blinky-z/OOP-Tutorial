@@ -383,7 +383,7 @@ int main() {
 
 ---
 
-## Виртуальная функция. Чистая виртуальная функция
+## Виртуальная функция
 
 **Виртуальная функция** - это метод в родительском классе, который можно переопределить в его дочерних классах. Это позволяет
  пользователю вызывать необходимые методы в зависимости от типа объекта (см. [Базовые принципы ООП: Полиморфизм](https://github.com/TwITe/OOP-Learn#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%9E%D0%9E%D0%9F)).
@@ -391,7 +391,6 @@ int main() {
  Пример:
 ```c++
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 class Base {
@@ -447,7 +446,6 @@ int main () {
 Попробуем решить эту проблему, объявив функцию print_non_virtual_function() как виртуальную:
 ```c++
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 class Base {
@@ -499,3 +497,88 @@ int main () {
 инициализированному при компиляции программы и больше не меняясь, что называется **Compile time polymorhism**.
 Виртуальные функции же, в свою очередь, позволяют при смене указателю на другой тип, вызывать методы, переопределенные для текущего типа объекта, *по ходу работы всей программы*, что
 называется **Runtime polymorphism**.
+
+### Чистая виртульная функция
+
+**Чистая виртульная функция** - это виртуальная функция, не имеющая имплементации в родительском классе. Необходимость в ней возникает, когда пользователь не знает,
+какая имплементация должна быть у виртуальной функции в родительском классе, так как ее имплементация зависит от типа объекта. Чистая виртульная функция инициализируется
+нулевым значением.
+ Пример:
+```c++
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Shape {
+protected:
+    int width = 0, height = 0;
+public:
+    void set_values(int a, int b) {
+        width = a;
+        height = b;
+    }
+    virtual double get_diagonal() = 0; // Тип объекта не известен (квадрат или прямоугольник), соответственно имплементация метода в
+    // родительском классе невозможна
+};
+
+class Square:public Shape {
+public:
+    double get_diagonal() override {
+        return sqrt(2 * pow(width, 2));
+    }
+};
+
+class Rectangle:public Shape {
+public:
+    double get_diagonal() override {
+        return sqrt(pow(width, 2) + pow(height, 2));
+    }
+};
+
+
+int main () {
+    Shape* shape;
+    Square square;
+    Rectangle rectangle;
+    shape = &square;
+    shape->set_values(5, 5);
+    cout << shape->get_diagonal() << endl; // 7.07107
+    shape = &rectangle;
+    shape->set_values(4, 3);
+    cout << shape->get_diagonal(); // 5
+}
+```
+
+
+
+
+## Дружественные функции (Friend functions)
+
+**Дружественная функция** - это функция, объявленная вне области класса и его потомков, однако имеющая доступ к скрытым данным (private и protected) в нем.
+
+ Пример:
+ ```c++
+#include <iostream>
+using namespace std;
+
+class Base {
+private:
+    int a;
+public:
+    friend void print_value(Base base);
+    int set_values(int value) {
+        a = value;
+    }
+};
+
+void print_value(Base base) { // Дружественная функция, имеющая доступ к скрытым данным в объекте
+    cout << base.a;
+}
+
+int main () {
+    Base base = Base();
+    base.set_values(5);
+    print_value(base); // 5
+    return 0;
+}
+ ```
