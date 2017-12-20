@@ -577,7 +577,8 @@ class Base {
 private:
     int a;
 public:
-    friend void print_value(Base base);
+    friend void print_value(Base base); // Объявление дружественной функции (keyword "friend")
+
     int set_values(int value) {
         a = value;
     }
