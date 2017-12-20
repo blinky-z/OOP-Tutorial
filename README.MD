@@ -275,7 +275,7 @@ using namespace std;
 
 class example {
 public:
-    string s = "class was created";
+    string s = "object was created";
     int a = 19;
 };
 
