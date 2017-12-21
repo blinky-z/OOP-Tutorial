@@ -1,4 +1,4 @@
-#                                Краткий справочник по ООП
+# Краткий справочник по ООП
 
 ## Вступление
 Данный справочник призван помочь в освоении ООП. Вся информация приведена в простом и понятном виде.
@@ -23,7 +23,7 @@
 - [Виртуальные функции](https://github.com/TwITe/OOP-Tutorial#%D0%92%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F)
     * [Чистая виртуальная функция](https://github.com/TwITe/OOP-Tutorial#%D0%A7%D0%B8%D1%81%D1%82%D0%B0%D1%8F-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F)
 - [Таблица виртуальных функций](https://github.com/TwITe/OOP-Tutorial#%D0%A2%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9)
-- [Дружественные функции (Friend functions)](https://github.com/TwITe/OOP-Tutorial#%D0%94%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-friend-functions)
+- [Friend functions](https://github.com/TwITe/OOP-Tutorial#%D0%94%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-friend-functions)
 
 ---
 
@@ -410,7 +410,6 @@ public:
     }
 };
 
-
 int main () {
     Base* baseptr;
     Derived derivedptr;
@@ -465,7 +464,6 @@ public:
         cout << "In child class";
     }
 };
-
 
 int main () {
     Base* baseptr;
@@ -533,7 +531,6 @@ public:
     }
 };
 
-
 int main () {
     Shape* shape;
     Square square;
@@ -558,7 +555,7 @@ int main () {
 
 ## Friend functions
 
-**Дружественная функция** - это функция, объявленная вне области класса и его потомков, однако имеющая доступ к скрытым данным (private и protected) в нем.
+**Friend function** - это функция, объявленная вне области класса и его потомков, однако имеющая доступ к скрытым данным (private и protected) в нем.
 
  Пример:
  ```c++
