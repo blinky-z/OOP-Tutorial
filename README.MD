@@ -24,6 +24,8 @@
     * [Чистая виртуальная функция](https://github.com/TwITe/OOP-Tutorial#%D0%A7%D0%B8%D1%81%D1%82%D0%B0%D1%8F-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F)
 - [Таблица виртуальных функций](https://github.com/TwITe/OOP-Tutorial#%D0%A2%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9)
 - [Friend functions](https://github.com/TwITe/OOP-Tutorial#%D0%94%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-friend-functions)
+- [Статические поля класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8F-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
+- [Статические методы класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
 
 ---
 
@@ -31,7 +33,7 @@
 - **Полиморфизм** - это способность функций вызывать необходимую реализацию в зависимости от типа данных. В данном справочнике будет рассмотрен
  **Runtime** полиморфизм.
 - **Метод** - методом называется функция какого-либо класса
-- **Поле класса** - полем называется какя-либо переменная класса
+- **Поле класса** - полем называется какая-либо переменная класса
 
 ---
 
@@ -240,6 +242,7 @@ class example {
 public:
     string s = "class was created";
     int a = 19;
+    return 0;
 };
 ```
 
@@ -270,6 +273,7 @@ public:
 
 int main() {
     example created_object; // Объект создан
+    return 0;
 }
 ```
 
@@ -305,6 +309,7 @@ int main() {
     example obj;
     obj.s = "class was created"; //здесь мы напрямую обращаемся к переменной класса
     cout << obj.s;
+    return 0;
 }
 ```
 
@@ -542,6 +547,7 @@ int main () {
     shape = &rectangle;
     shape->set_values(4, 3);
     cout << shape->get_diagonal(); // 5
+    return 0;
 }
 ```
 
@@ -616,6 +622,7 @@ int main() {
     cout << endl;
     cout << second.s; // 5
     // Переменная s во втором объекте имеет то же состояние, что и первый объект
+    return 0;
 }
 ```
 
@@ -636,6 +643,7 @@ int Base::s = 0;
 int main() {
     Base::s = 5;
     cout << Base::s; // 5
+    return 0;
 }
 ```
 
@@ -677,6 +685,7 @@ int Base::s = 10;
 
 int main() {
     cout << Base::get_value(); // 10
+    return 0;
 }
 ```
 
@@ -702,5 +711,6 @@ int Base::s = 10;
 
 int main() {
     cout << Base::get_value(); // 10
+    return 0;
 }
 ```
