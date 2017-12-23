@@ -130,7 +130,7 @@ public:
     }
 };
 
-class derived_class: public base_class { // пример наследования: был создан дочерный класс с доступными
+class derived_class : public base_class { // пример наследования: был создан дочерный класс с доступными
 
     // методами класса-родителя, но расширением функционала
 public:
@@ -407,10 +407,9 @@ public:
     void print_non_virtual_function() {
         cout << "In parent class";
     }
-
 };
 
-class Derived:public Base {
+class Derived : public Base {
 public:
     void print() override {
         cout << "In child class";
@@ -423,19 +422,17 @@ public:
 };
 
 int main () {
-    Base* baseptr;
-    Derived derivedptr;
+    Base* baseptr = new Base; // Объект типа родительского класса
 
-    baseptr = &derivedptr; // Объект типа дочерного класса
-
-    baseptr->print(); // In child class
+    baseptr->print(); // In parent class
     cout << endl;
     baseptr->print_non_virtual_function(); // In parent class
     cout << endl;
 
-    baseptr = new Base; // Объект типа родительского класса
+    delete baseptr;
+    baseptr = new Derived; // Объект типа дочерного класса
 
-    baseptr->print(); // In parent class
+    baseptr->print(); // In child class
     cout << endl;
     baseptr->print_non_virtual_function(); // In parent class
     delete baseptr;
@@ -462,10 +459,9 @@ public:
     virtual void print_non_virtual_function() {
         cout << "In parent class";
     }
-
 };
 
-class Derived:public Base {
+class Derived : public Base {
 public:
     void print() override {
         cout << "In child class";
@@ -478,21 +474,20 @@ public:
 };
 
 int main () {
-    Base* baseptr;
-    Derived derivedptr;
+    Base* baseptr = new Base; // Объект типа родительского класса
 
-    baseptr = &derivedptr; // Объект типа дочерного класса
+    baseptr->print(); // In parent
+    cout << endl;
+    baseptr->print_non_virtual_function(); // In parent class // Проблема решена: метод вызвался, соответствуя типу объекта
+    cout << endl;
+
+    delete baseptr;
+    baseptr = new Derived; // Объект типа дочерного класса
 
     baseptr->print(); // In child class
     cout << endl;
-    baseptr->print_non_virtual_function(); // In child class // Проблема решена: метод вызвался, соответствуя типу объекта
-    cout << endl;
+    baseptr->print_non_virtual_function(); // In child class
 
-    baseptr = new Base; // Объект типа родительского класса
-
-    baseptr->print(); // In parent class
-    cout << endl;
-    baseptr->print_non_virtual_function(); // In parent class
     delete baseptr;
     return 0;
 }
@@ -529,14 +524,14 @@ public:
     // соответственно имплементация метода в родительском классе невозможна
 };
 
-class Square:public Shape {
+class Square : public Shape {
 public:
     double get_diagonal() override {
         return sqrt(2 * pow(width, 2));
     }
 };
 
-class Rectangle:public Shape {
+class Rectangle : public Shape {
 public:
     double get_diagonal() override {
         return sqrt(pow(width, 2) + pow(height, 2));
@@ -820,9 +815,8 @@ int main () {
 
 ## Что такое деструктор?
 **Деструктор** - это специальный метод класса, который освобождает память и уничтожает объект. ***Если деструктор имплементирован***, он вызывается
-автоматически при выходе объекта из области видимости или при освобождении динамической памяти, где был создан объект. Деструктор требуется для
-того, чтобы произвести другие необходимые действия перед тем, как объект полностью уничтожится. Например, закрыть открытый файл, высвободить
-динамически выделенную память и т.д.
+автоматически при завершении жизненного цикла объекта. Деструктор требуется для того, чтобы произвести другие необходимые действия перед тем,
+как объект полностью уничтожится. Например, закрыть открытый файл, высвободить динамически выделенную память и т.д.
 
 Пример простого деструктора:
 ```c++
