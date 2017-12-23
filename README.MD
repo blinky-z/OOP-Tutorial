@@ -632,7 +632,7 @@ int main() {
 }
 ```
 
- Наверняка, у вас возник вопрос, для чего нужна такая инициализация переменной?
+ Для чего требуется следующая инициализация переменной?
 ```c++
 int Base::s = 0;
 ```
@@ -809,8 +809,8 @@ int main () {
 
 - Для *parameterized* конструктора:
 ```c++
-    Construct explicit_call = Construct(arg1, arg2); // Явный вызов
-    Construct implicit_call(arg1, arg2); // Неявный вызов
+    Construct explicit_call = Construct(parameters); // Явный вызов
+    Construct implicit_call(parameters); // Неявный вызов
 ```
 
 ---
