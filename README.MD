@@ -783,7 +783,6 @@ public:
     }
 };
 
-
 int main () {
     Base construct(10, 15);
     cout << construct.a; // 10
@@ -838,7 +837,6 @@ public:
         cout << "Object was deleted";
     }
 };
-
 
 int main () {
     Destruct example;
