@@ -793,6 +793,8 @@ int main () {
 }
 ```
 
+----
+
 ### Вызов конструктора
 Вызвать конструктом можно двумя способами:
 - Для *стандартного* конструктора:
@@ -810,6 +812,8 @@ int main () {
     Construct explicit_call = Construct(arg1, arg2); // Явный вызов
     Construct implicit_call(arg1, arg2); // Неявный вызов
 ```
+
+---
 
 ### Initialization list
 
