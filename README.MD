@@ -26,7 +26,11 @@
 - [Friend functions](https://github.com/TwITe/OOP-Tutorial#%D0%94%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-friend-functions)
 - [Статические поля класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8F-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
 - [Статические методы класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
-- [Scope resolution operator]()
+- [Scope resolution operator](https://github.com/TwITe/OOP-Tutorial#scope-resolution-operator-)
+- [Конструктор](https://github.com/TwITe/OOP-Tutorial#%D0%A7%D1%82%D0%BE-%D1%82%D0%B0%D0%BA%D0%BE%D0%B5-%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80)
+    - [Default constructor](https://github.com/TwITe/OOP-Tutorial#default-constructor)
+    - [Parameterized constructor](https://github.com/TwITe/OOP-Tutorial#parameterized-constructor)
+- [Вызов конструктора](https://github.com/TwITe/OOP-Tutorial#%D0%92%D1%8B%D0%B7%D0%BE%D0%B2-%D0%BA%D0%BE%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D0%BE%D1%80%D0%B0)
 
 
 ---
@@ -726,14 +730,14 @@ int main() {
 
 ---
 
-## Что такое конструктор?
+## Конструктор
 **Конструктор** - это специальный метод класса, который инициализирует объекты. Конструктор вызывается автоматически при создании объекта.
 Если пользователь не написал свой конструктор, компилятор автоматически генерирует пустой конструктор, где все переменные инициализируются
 нулевыми значениями.
 
 Существует 2 типа конструкторов:
 
-#### Default constructor
+### Default constructor
 **Стандартный конструктор** - это конструктор, который не имеет никаких параметров.
 
 Пример:
@@ -761,7 +765,7 @@ int main () {
 }
 ```
 
-#### Parameterized constructor
+### Parameterized constructor
 **Parameterized constructor**, в отличие от стандартного конструктора, имеет параметры в своем объявлении и позволяет инициализировать поля класса
 переданными параметрами.
 
@@ -790,7 +794,7 @@ int main () {
 }
 ```
 
-#### Вызов конструктора
+### Вызов конструктора
 Вызвать конструктом можно двумя способами:
 - Для *стандартного* конструктора:
 ```c++
@@ -804,7 +808,7 @@ int main () {
     Construct implicit_call(arg1, arg2); // Неявный вызов
 ```
 
-#### Initialization list
+### Initialization list
 
 ---
 
