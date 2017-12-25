@@ -38,8 +38,8 @@
 - [Геттеры & Сеттеры](https://github.com/TwITe/OOP-Tutorial#%D0%93%D0%B5%D1%82%D1%82%D0%B5%D1%80%D1%8B--%D0%A1%D0%B5%D1%82%D1%82%D0%B5%D1%80%D1%8B)
     - [Связь с инкапсуляцией]()
 - [RAII]()
-- [Разделение класса на описание и имплементацию]()
-    - [Достоинства]()
+- [Разделение класса на описание и имплементацию](https://github.com/TwITe/OOP-Tutorial#%D0%A0%D0%B0%D0%B7%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0-%D0%BD%D0%B0-%D0%BE%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B8-%D0%B8%D0%BC%D0%BF%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8E)
+    - [Достоинства](https://github.com/TwITe/OOP-Tutorial#%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B8%D0%BD%D1%81%D1%82%D0%B2%D0%B0-%D0%B4%D0%B0%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%B0)
 
 ---
 
@@ -1109,7 +1109,7 @@ public:
 #endif
 ```
 
-Содержимое файла **Base.cpp**. Имплементация методов класса.
+Содержимое файла **Base.cpp**. Имплементация класса.
 ```c++
 #include <iostream>
 #include "Base.h"
@@ -1117,7 +1117,7 @@ using namespace std;
 
 Base:: Base() {
     s = 0;
-    cout << "Constructor was called in separate realization file" << endl;
+    cout << "Constructor was called in Base header file" << endl;
 }
 
 int Base::set_value(int a) {
@@ -1129,14 +1129,14 @@ int Base::get_value() {
 }
 ```
 
-Программа с классом Base, реалзизованным в виде библиотеки:
+Программа с классом Base, реализованным в виде библиотеки:
 ```c++
 #include <iostream>
 #include "Base.h"
 using namespace std;
 
 int main() {
-    Base base; // Constructor was called in separate realization file
+    Base base; // Constructor was called in Base header file
     base.set_value(5);
     cout << "The variable was setted to: " << base.get_value(); // The variable was setted to: 5
     return 0;
