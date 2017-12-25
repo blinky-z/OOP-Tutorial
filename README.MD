@@ -23,7 +23,7 @@
 - [Виртуальные функции](https://github.com/TwITe/OOP-Tutorial#%D0%92%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F)
     * [Чистая виртуальная функция](https://github.com/TwITe/OOP-Tutorial#%D0%A7%D0%B8%D1%81%D1%82%D0%B0%D1%8F-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F)
 - [Таблица виртуальных функций](https://github.com/TwITe/OOP-Tutorial#%D0%A2%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9)
-- [Friend functions](https://github.com/TwITe/OOP-Tutorial#%D0%94%D1%80%D1%83%D0%B6%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8-friend-functions)
+- [Friend functions](https://github.com/TwITe/OOP-Tutorial#friend-functions)
 - [Статические поля класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%8F-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
 - [Статические методы класса](https://github.com/TwITe/OOP-Tutorial#%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D0%B0)
 - [Scope resolution operator](https://github.com/TwITe/OOP-Tutorial#scope-resolution-operator-)
@@ -762,6 +762,10 @@ int main () {
 }
 ```
 
+**Стандартный конструктор будет автоматически генерироваться компилятором, если не были объявленны никакие другие специализированные конструкторы.**
+В противном случае необходимо имплементировать стандартный конструктор самому пользователю. Без стандартного конструктора невозможно создание
+дочерних классов или объектов данного класса в дочерних классах.
+
 ### Parameterized constructor
 **Parameterized constructor**, в отличие от стандартного конструктора, имеет параметры в своем объявлении и позволяет инициализировать поля класса
 переданными параметрами.
@@ -808,7 +812,147 @@ int main () {
     Construct implicit_call(parameters); // Неявный вызов
 ```
 
-### Initialization list
+### Initializer list
+**Initializer list** требуется для того, чтобы инициализировать переменные класса. Его поведение ничем не отличается от инциализации внутри тела
+конструктора. Однако, в некоторых ситуациях требуется именно данный метод инициализации членов класса. Данные случаи будут рассмотрены ниже.
+
+Пример:
+```c++
+#include <iostream>
+using namespace std;
+
+class Base {
+private:
+    int a, b;
+public:
+    Base(int i, int j) : a(i), b(j) {}; // Initializer list
+
+    int get_a() {
+        return a;
+    }
+
+    int get_b() {
+        return b;
+    }
+};
+
+int main() {
+    Base base = Base(5, 8);
+    cout << base.get_a(); // 5
+    cout << endl;
+    cout << base.get_b(); // 8
+    return 0;
+}
+```
+
+### Применение **Initializer list**
+
+- Для инициализации константных переменных в классе:
+```c++
+#include <iostream>
+using namespace std;
+
+class Base {
+private:
+    int s;
+public:
+    Base (int i = 0): s(i) {}; // Верный вариант
+/*    Base(int i = 0) { // Ошибка
+        s = i;
+    };*/
+
+    int get_value() {
+        return s;
+    };
+};
+
+int main() {
+    Base base = Base(19);
+    cout << base.get_value(); // 19
+    return 0;
+}
+```
+
+- Для инициализации Reference Members (переменных, которым присвоен адрес какой-либо другой переменной)
+```c++
+#include <iostream>
+using namespace std;
+
+class Base {
+private:
+    int &s; // Переменная содержит адрес переменной x и изменяется при изменении последней
+public:
+    Base (int &i): s(i) {};
+
+    int get_value() {
+        return s;
+    };
+};
+
+int main() {
+    int x = 10;
+    Base base = Base(x);
+    cout << base.get_value(); // 10
+    cout << endl;
+    x = 25;
+    cout << base.get_value(); // 25
+    return 0;
+}
+```
+
+- Для инициализации объектов, которые не имеют стандартного конструктора.
+Пример:
+```c++
+#include <iostream>
+using namespace std;
+
+class A {
+protected:
+    int i;
+public:
+    A(int a) {
+        i = a;
+        cout  << "A's constructor called" << endl;
+    };
+};
+
+class B {
+private:
+    A a_object;
+public:
+    B(int a): a_object(a) { // Инициализация объекта a_object с помощью parameterized конструктора класса A
+        // Класс A не имеет стандартного конструктора и не был автоматически создан.
+        cout << "B's constructor called";
+    };
+};
+
+int main() {
+    B object(10);
+    return 0;
+}
+```
+
+- Для инициализации членов класса, которые имеют такое же имя, как и переданный параметр
+
+Пример:
+```c++
+#include <iostream>
+using namespace std;
+
+class Base {
+private:
+    int i;
+public:
+    Base(int i): i(i) {
+        cout << "Data member i was initialized to: " <<  i;
+    };
+};
+
+int main() {
+    Base base(10); // Data member i was initialized to: 10
+    return 0;
+}
+```
 
 ---
 
@@ -889,4 +1033,4 @@ int main() {
 **Абстрактный класс** - это класс, который имеет чистую виртуальную функцию (см. [Чистая виртуальная функция](https://github.com/TwITe/OOP-Tutorial#%D0%A7%D0%B8%D1%81%D1%82%D0%B0%D1%8F-%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F).
 Абстрактный класс не может быть инициализирован. Он используется для дальнейшего создания объктов конкретного типа, которые будут иметь
 функциональность родительского класса, но различную имплементацию виртуальных и чистых виртуальных методов.
-- Если виртуальная функция не была переопределена в дочерном классе, дочерний класс тоже будет являться абстрактным классом.
+- Если виртуальная функция не была переопределена в дочерном классе, дочерний класс также будет являться абстрактным классом.
