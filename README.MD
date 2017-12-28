@@ -1179,45 +1179,53 @@ int main() {
  ---
 
 ## RAII
-**RAII (Resource Acquisition Is Initialization)** - идиома ООП, заключающаяся в том, что выделение ресурсов для требуемых действий в классе - это
-инициализация объекта, а освобождение - уничтожение объекта. Выделение ресурсов следует производить в конструкторе класса, так как при уничтожении
-объекта автоматически вызовится деструктор класса, который в свою очередь освобождает использованные ресурсы. Это гарантирует безопасность работы
-программы, исключает утечки памяти и другие ошибки.
+**RAII (Resource Acquisition Is Initialization)** - идиома ООП, заключающаяся в том, что выделение ресурсов для требуемых действий в классе
+должно происходить во время инициализации объекта, а освобождение во время его уничтожения. Это гарантирует безопасность работы программы,
+исключает утечки памяти и другие ошибки.
 
-Следует отметить, что ресурсы будут освобождены даже в случае исключения.
+- **Следует отметить, что в случае исключения при инициализации объекта будут вызваны деструкторы других объектов, но не самого родительского класса.**
 
 Пример:
 ```c++
 #include <iostream>
-#include <fstream>
 using namespace std;
 
-class file {
-private:
-    ifstream data_file;
-    int *memory;
+class Sample {
 public:
-    file(const char *filename) {
-        memory = new int[15];
-        data_file.open(filename);
-        if (!data_file.is_open()) {
-            throw ("file open failed");
-        }
+    Sample() {
+        cout << "Sample constructor" << endl;
     }
 
-    ~file() {
-        data_file.close();
-        delete[] memory;
+    ~Sample() {
+        cout << "Sample destructor" << endl;
+    }
+};
+
+class Base {
+private:
+    int *a;
+public:
+    Base() {
+        Sample b;
+
+        throw runtime_error("error");
+    }
+
+    ~Base() {
+        delete[] a;
     }
 };
 
 int main() {
-    file testfile("wrong_filename"); //несуществующий файл
+    try {
+        Base base;
+    }
+    catch (exception e) {
+
+    }
+
     return 0;
 }
-```
-Данная программа перед открытием файла выделяет место в динамической памяти, однако затем падает с исключением. Однако, программа все равно
-освободит использованные ресурсы. Из лога Valgrind:
-```c++
-
+// Sample constructor
+// Sample destructor
 ```
