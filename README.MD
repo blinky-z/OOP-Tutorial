@@ -1208,6 +1208,7 @@ int main() {
         A a;
     }
     catch (exception) {
+
     }
 }
 ```
@@ -1244,6 +1245,7 @@ int main() {
         A a;
     }
     catch (exception) {
+
     }
 }
 ```
