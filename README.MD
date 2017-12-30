@@ -120,7 +120,7 @@
 
 ## Базовые принципы ООП
 
- 1) **Наследование** - это возможность создать новый дочерний класс на основе родительского класса, но расширением функционала.
+ 1) **Наследование** - это возможность создать новый дочерний класс на основе родительского класса, но с расширением функциональности.
  При чем, все методы родительского класса будут доступны и в дочерном.
 
 Пример:
@@ -128,7 +128,7 @@
 #include <iostream>
 using namespace std;
 
-class base_class {
+class Base {
 public:
     string s;
 
@@ -137,9 +137,7 @@ public:
     }
 };
 
-class derived_class : public base_class { // пример наследования: был создан дочерный класс с доступными
-
-    // методами класса-родителя, но расширением функционала
+class Derived : public Base { // Дочерний класс
 public:
     void print_string() {
         cout << s;
@@ -147,9 +145,9 @@ public:
 };
 
 int main() {
-    derived_class object;
-    object.initialize_string("derived class was created");
-    object.print_string(); // derived class was created
+    Derived object;
+    object.initialize_string("Derived class was created");
+    object.print_string(); // Derived class was created
     return 0;
 }
 ```
@@ -168,7 +166,7 @@ using namespace std;
 class Base {
 public:
     virtual void print() {
-        cout << endl <<  "Base class print function was called";
+        cout << "Base class print function was called" << endl;
     }
 };
 
@@ -177,17 +175,20 @@ public:
     void print() override { // Пример полиморфизма: функция была объявлена ранее в родительском классе,
         // однако при вызове функции print() из объекта типа Derived будет вызвана данная функция, а не
         // родительского класса
-        cout << endl << "Derived class print function was called";
+        cout << "Derived class print function was called" << endl;
     }
 };
 
 int main () {
     Base* parent = new Base;
     Derived child;
+
     parent->print(); // Base class print function was called
-    cout << endl;
+
     delete parent;
+
     parent = &child; // Смена типа объекта на тип дочерного класса
+
     parent->print(); // Derived class print function was called
     return 0;
 }
@@ -199,7 +200,6 @@ int main () {
 Пример:
 ```c++
 #include <iostream>
-#include <cmath>
 using namespace std;
 
 class Rectangle {
@@ -224,8 +224,7 @@ int main () {
 
 ## Что такое класс?
 
-**Класс** - это тип данных, определяемый пользователем. Мы сами задаем тип, а значит можем добавлять к типу свои методы,
-переменные, сами задаем его реализацию.
+**Класс** - это тип данных, задаваемый пользователем, следовательно, функциональность и реализация класса полностью зависят от самого пользователя.
 
 **Создание класса**
 
@@ -233,26 +232,30 @@ int main () {
 #include <iostream>
 using namespace std;
 
-class example {
+class Foo {
 public:
-    string s = "class was created";
-    int a = 19;
-    return 0;
+    Foo() {
+        cout << "Class was created";
+    };
 };
+
+int main() {
+    return 0;
+}
 ```
 
 ---
 
 ## В чем различия между классом и структурой?
 
-Класс от структуры отличает то, что в классе все элементы *по умолчанию* скрыты (private), а в структуре открыты (public).
+Класс от структуры отличает то, что в классе все поля по умолчанию имеют модификатор private, а в структуре - public.
 
 ---
 
 ## Что такое объект
 **Объект** - это конкретный экземпляр класса, функциональность которого полностью ограничена самим классом. Класс - всего лишь описание, на него не
 выделяется памяти. Для того, чтобы стало возможным записывать данные и вызывать методы, требуется создать объект. Все состояния переменных класса
-будут принадлежать конкретному объекту (кроме статических полей, они будут рассмотрены позднее).
+будут принадлежать конкретному объекту (кроме статических полей, которые будут рассмотрены позднее).
 
 Создание объекта:
 
@@ -260,14 +263,15 @@ public:
 #include <iostream>
 using namespace std;
 
-class example {
+class Foo {
 public:
-    string s = "object was created";
-    int a = 19;
+    Foo() {
+        cout << "Class was created";
+    }
 };
 
 int main() {
-    example created_object; // Объект создан
+    Foo object; // Объект создан
     return 0;
 }
 ```
@@ -292,16 +296,17 @@ int main() {
 
 Пример:
 ```c++
-class example {
+#include <iostream>
+using namespace std;
+
+class Foo {
 public:
     string s;
-    int a;
 };
 
 int main() {
-    example obj;
-    obj.s = "class was created"; //здесь мы напрямую обращаемся к переменной класса
-    cout << obj.s;
+    Foo object;
+    object.s = "Class was created"; // обращение к переменной класса без использования паблик-методов
     return 0;
 }
 ```
@@ -314,25 +319,24 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class example {
+class Foo {
 private:
     string s;
 public:
     void initialize_string(const string& data) {
         s = data;
     }
+
     void print_string() {
         cout << s;
     }
 };
 
 int main() {
-    example obj;
-    //obj.s = "private access is set"; //Ошибка: Мы пытаемся получить доступ к переменной вне области
-    //видимости класса.
-    obj.initialize_string("private modifier is set"); // Для того, чтобы получить доступ к переменной,
-    // объявленной как private, нужно обращаться к ней через паблик функции в классе
-    obj.print_string(); // private modifier is set
+    Foo object;
+    object.initialize_string("private modifier is set"); // Для того, чтобы получить доступ к переменной,
+    // объявленной как private, требуется обращаться к ней через паблик функции класса
+    object.print_string(); // private modifier is set
     return 0;
 }
 ```
@@ -345,24 +349,25 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class example {
-//private: // Ошибка: мы не сможем получить доступ к переменной в дочерном классе
+class Base {
+//private: // Ошибка: получить доступ к переменной в дочерном классе будет невозможно
 protected:
     string s;
 };
 
-class child_class_of_example:example {
+class Derived : Base {
 public:
     void initialize_string(const string& data) {
         s = data;
     }
+
     void print_string() {
         cout << s;
     }
 };
 
 int main() {
-    child_class_of_example object;
+    Derived object;
     object.initialize_string("protected modifier is set");
     object.print_string(); // protected modifier is set
     return 0;
@@ -372,18 +377,18 @@ int main() {
 ### Применение модификаторов к унаследованным классам
 Все описанные модификаторы доступа применимы также и к модификаторам доступа наследственных классов:
 
-1) **Public** - данный модификатор, примененный к унаследованному классу, означает то, что доступ к Base классу смогут получить все те классы,
-которые имеют доступ к дочерному-классу Derived
+1) **Public** - данный модификатор, примененный к унаследованному классу, означает то, что доступ к Base классу смогут получить **все классы,
+которые имеют доступ к дочерному-классу Derived**
 ```c++
 Class Derived : public Base {};
 ```
 2) **Protected** - данный модификатор, примененный к унаследованному классу, означает то, что доступ к Base классу смогут получить все те классы,
-которые унаследованы от дочерного класса Derived
+которые **были унаследованы от дочерного класса Derived**
 ```c++
 Class Derived : protected Base {};
 ```
-3) **Private** - данный модификатор, примененный к унаследованному классу, означает то, что доступ к Base классу сможет получить **только**
-дочерний класс
+3) **Private** - данный модификатор, примененный к унаследованному классу, означает то, что доступ к Base классу сможет получить **только
+дочерний класс**
 ```c++
 Class Derived : private Base {};
 ```
@@ -400,23 +405,14 @@ using namespace std;
 
 class Base {
 public:
-    virtual void print() {
-        cout << "In parent class";
-    }
-
-    void print_non_virtual_function() {
+    void print() {
         cout << "In parent class";
     }
 };
 
 class Derived : public Base {
 public:
-    void print() override {
-        cout << "In child class";
-    }
-
-    void print_non_virtual_function() {
-
+    void print() {
         cout << "In child class";
     }
 };
@@ -426,26 +422,21 @@ int main () {
 
     baseptr->print(); // In parent class
     cout << endl;
-    baseptr->print_non_virtual_function(); // In parent class
-    cout << endl;
 
     delete baseptr;
     baseptr = new Derived; // Объект типа дочерного класса
 
-    baseptr->print(); // In child class
-    cout << endl;
-    baseptr->print_non_virtual_function(); // In parent class
+    baseptr->print(); // In parent class
     delete baseptr;
     return 0;
 }
 ```
 
-Как видно из примера, функция **print_non_virtual_function()**, вызванная из объекта типа **Derived**, все равно вызывает функцию из
-родительского класса. Это происходит потому, что функция **print_non_virtual_function()** вызывается в зависимости от типа *указателя*,
-а не объекта. Виртуальные функции же решают эту проблему и позволяют вызывать методы на основе типа *объекта*, что и происходит с
-функцией **print()**, объявленной как *virtual*.
+Как видно из примера, функция **print()**, вызванная из объекта типа **Derived**, в любом случае вызывает функцию родительского класса.
+Это происходит потому, что функция **print()** вызывается в зависимости от типа *указателя*, а не объекта. Виртуальные функции же решают эту
+проблему и позволяют вызывать методы на основе типа *объекта*, что известно как **Runtime polymorphism**.
 
-Объявив функцию print_non_virtual_function() как виртуальную:
+Объявив функцию **print()** как *виртуальную*:
 ```c++
 #include <iostream>
 using namespace std;
@@ -455,10 +446,6 @@ public:
     virtual void print() {
         cout << "In parent class";
     }
-
-    virtual void print_non_virtual_function() {
-        cout << "In parent class";
-    }
 };
 
 class Derived : public Base {
@@ -466,45 +453,30 @@ public:
     void print() override {
         cout << "In child class";
     }
-
-    void print_non_virtual_function() override {
-
-        cout << "In child class";
-    }
 };
 
 int main () {
     Base* baseptr = new Base; // Объект типа родительского класса
 
-    baseptr->print(); // In parent
-    cout << endl;
-    baseptr->print_non_virtual_function(); // In parent class // Проблема решена: метод вызвался, соответствуя типу объекта
+    baseptr->print(); // In parent class
     cout << endl;
 
     delete baseptr;
     baseptr = new Derived; // Объект типа дочерного класса
 
-    baseptr->print(); // In child class
-    cout << endl;
-    baseptr->print_non_virtual_function(); // In child class
-
+    baseptr->print(); // In child class // Проблема решена
     delete baseptr;
     return 0;
 }
 ```
 
-В главе [Базовые принципы ООП: Полиморфизм](https://github.com/TwITe/OOP-Learn#%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%B8%D0%BD%D1%86%D0%B8%D0%BF%D1%8B-%D0%9E%D0%9E%D0%9F) функции вызывались в зависимости от типа объекта по указателю,
-инициализированному при компиляции программы и больше не меняясь, что называется **Compile time polymorhism**.
-Виртуальные функции же, в свою очередь, позволяют при смене указателю на другой тип, вызывать методы, переопределенные для текущего типа объекта, *по ходу работы всей программы*, что
-называется **Runtime polymorphism**.
-
 ---
 
 ### Чистая виртульная функция
 
-**Чистая виртульная функция** - это виртуальная функция, не имеющая имплементации в родительском классе. Необходимость в ней возникает, когда пользователь не знает,
-какая имплементация должна быть у виртуальной функции в родительском классе, так как ее имплементация зависит от типа объекта. Чистая виртульная функция инициализируется
-нулевым значением.
+**Чистая виртульная функция** - это виртуальная функция, не имеющая имплементации в родительском классе. Необходимость в ней возникает, когда
+пользователь не знает, какая имплементация должна быть у виртуальной функции в родительском классе, так как ее имплементация зависит от типа
+объекта. Чистую виртуальную функцию требуется инициализирать нулевым значением.
 
  Пример:
 ```c++
@@ -520,8 +492,9 @@ public:
         width = a;
         height = b;
     }
-    virtual double get_diagonal() = 0; // Тип объекта не известен (квадрат или прямоугольник),
-    // соответственно имплементация метода в родительском классе невозможна
+
+    virtual double get_diagonal() = 0; // Тип объекта не известен (квадрат или прямоугольник), следовательно
+    // имплементация метода в родительском классе невозможна
 };
 
 class Square : public Shape {
@@ -542,9 +515,11 @@ int main () {
     Shape* shape;
     Square square;
     Rectangle rectangle;
+
     shape = &square;
     shape->set_values(5, 5);
     cout << shape->get_diagonal() << endl; // 7.07107
+
     shape = &rectangle;
     shape->set_values(4, 3);
     cout << shape->get_diagonal(); // 5
@@ -566,32 +541,33 @@ int main () {
 
 ## Friend functions
 
-**Friend function** - это функция, объявленная вне области класса и его потомков, однако имеющая доступ к скрытым данным (private и protected) в нем.
+**Friend function** - это функция, объявленная вне области класса и его потомков, однако имеющая доступ к скрытым данным (private и protected)
+в нем.
 
  Пример:
  ```c++
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     int a;
 public:
-    friend void print_value(Base base); // Объявление дружественной функции (keyword "friend")
+    friend void print_value(Foo Foo); // Объявление дружественной функции (keyword "friend")
 
     int set_values(int value) {
         a = value;
     }
 };
 
-void print_value(Base base) { // Дружественная функция, имеющая доступ к скрытым данным в классе Base
-    cout << base.a;
+void print_value(Foo Foo) { // Дружественная функция, имеющая доступ к скрытым данным в классе Foo
+    cout << Foo.a;
 }
 
 int main () {
-    Base base = Base();
-    base.set_values(5);
-    print_value(base); // 5
+    Foo foo = Foo();
+    foo.set_values(5);
+    print_value(foo); // 5
     return 0;
 }
  ```
@@ -600,25 +576,27 @@ int main () {
 
 ## Статические поля класса
 
-**Статическое поле** - это переменная, которая имеют общее состояние во всех созданных объектах. Это означает то, что при изменении значения
-переменной в одном объекте, она изменится и во всех созданных объектах того же типа класса.
+**Статическое поле** - это член класса, который имеют общее состояние во всех созданных объектах. Следовательно, при изменении значения члена
+класса в одном объекте, оно изменится и во всех созданных объектах того же типа класса.
 
 Пример:
 ```c++
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 public:
     static int s;
 };
 
-int Base::s = 0;
+int Foo::s = 0;
 
 int main() {
-    Base first;
-    Base second;
+    Foo first;
+    Foo second;
+
     first.s = 5;
+
     cout << first.s; // 5
     cout << endl;
     cout << second.s; // 5
@@ -644,16 +622,23 @@ int Base::s = 0;
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 public:
     static int s;
 };
 
-int Base::s = 0;
+int Foo::s = 0;
 
 int main() {
-    Base::s = 5;
-    cout << Base::s; // 5
+    Foo first;
+    Foo second;
+
+    first.s = 5;
+
+    cout << first.s; // 5
+    cout << endl;
+    cout << second.s; // 5
+    // Переменная s во втором объекте имеет то же состояние, что и первый объект
     return 0;
 }
 ```
@@ -674,7 +659,7 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     static int s;
 public:
@@ -683,10 +668,10 @@ public:
     }
 };
 
-int Base::s = 10;
+int Foo::s = 10;
 
 int main() {
-    cout << Base::get_value(); // 10
+    cout << Foo::get_value(); // 10
     return 0;
 }
 ```
@@ -698,21 +683,21 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     static int s;
 public:
     static int get_value();
 };
 
-int Base::get_value() {
+int Foo::get_value() {
     return s;
 }
 
-int Base::s = 10;
+int Foo::s = 10;
 
 int main() {
-    cout << Base::get_value(); // 10
+    cout << Foo::get_value(); // 10
     return 0;
 }
 ```
@@ -739,18 +724,19 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 public:
     int a, b;
 
-    Base() { // Конструктор
+    Foo() { // Конструктор
         a = 5;
         b = 7;
     }
 };
 
 int main () {
-    Base construct;
+    Foo construct;
+
     cout << construct.a; // 5
     cout << endl;
     cout << construct.b; // 7
@@ -771,18 +757,19 @@ int main () {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 public:
     int a, b;
 
-    Base(int a1, int a2) { // Конструктора
+    Foo(int a1, int a2) { // Конструктора
         a = a1;
         b = a2;
     }
 };
 
 int main () {
-    Base construct(10, 15);
+    Foo construct(10, 15);
+
     cout << construct.a; // 10
     cout << endl;
     cout << construct.b; // 15
@@ -818,11 +805,11 @@ int main () {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     int a, b;
 public:
-    Base(int i, int j) : a(i), b(j) {}; // Initializer list
+    Foo(int i, int j) : a(i), b(j) {}; // Initializer list
 
     int get_a() {
         return a;
@@ -834,10 +821,11 @@ public:
 };
 
 int main() {
-    Base base = Base(5, 8);
-    cout << base.get_a(); // 5
+    Foo foo = Foo(5, 8);
+
+    cout << foo.get_a(); // 5
     cout << endl;
-    cout << base.get_b(); // 8
+    cout << foo.get_b(); // 8
     return 0;
 }
 ```
@@ -856,13 +844,13 @@ Initializer list принимает аргументы и *сразу же ин�
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     const int s;
 public:
-    Base (int i = 0): s(i) {}; // Верный вариант
+    Foo(int i = 0) : s(i) {}; // Верный вариант
 
-/*    Base(int i = 0) { // Ошибка
+/*    Foo(int i = 0) { // Ошибка
         s = i;
     };*/
 
@@ -872,8 +860,9 @@ public:
 };
 
 int main() {
-    Base base = Base(19);
-    cout << base.get_value(); // 19
+    Foo foo = Foo(19);
+
+    cout << foo.get_value(); // 19
     return 0;
 }
 ```
@@ -883,13 +872,13 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
-    int &s; // Переменная содержит адрес переменной x и изменяется при изменении последней
+    int& s; // Переменная содержит адрес переменной x и изменяется при изменении последней
 public:
-    Base (int& i): s(i) {}; // Правильный вариант
+    Foo(int& i) : s(i) {}; // Правильный вариант
 
-/*    Base (int& i) { // Ошибка: переменной s невозможно присвоить адрес переменной i таким образом
+/*    Foo (int& i) { // Ошибка: переменной s невозможно присвоить адрес переменной i таким образом
         s = i;
     }*/
 
@@ -900,11 +889,15 @@ public:
 
 int main() {
     int x = 10;
-    Base base = Base(x);
-    cout << base.get_value(); // 10
+
+    Foo foo = Foo(x);
+
+    cout << foo.get_value(); // 10
     cout << endl;
+
     x = 25;
-    cout << base.get_value(); // 25
+
+    cout << foo.get_value(); // 25
     return 0;
 }
 ```
@@ -915,32 +908,32 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class A {
+class Foo {
 protected:
     int i;
 public:
-    A(int a) {
+    Foo(int a) {
         i = a;
-        cout << "A's constructor called" << endl;
+        cout << "Foo's constructor called" << endl;
     };
 };
 
-class B {
+class Bar {
 private:
-    A a_object;
+    Foo foo;
 public:
-    B(int a) : a_object(a) { // Инициализация объекта a_object с помощью parameterized конструктора
-    // класса A
-        cout << "B's constructor called";
+    Bar(int a) : foo(a) { // Инициализация объекта foo с использованием parameterized конструктора
+        // класса Foo
+        cout << "Bar's constructor called";
     };
 
-/*    B(int a) { // Ошибка: невозможно инициализировать объект таким образом
-        a_object = A(a);
+/*    Bar(int a) { // Ошибка: невозможно инициализировать объект таким образом
+        a_object = Foo(a);
     }*/
 };
 
 int main() {
-    B object(10);
+    Bar object(10);
     return 0;
 }
 ```
@@ -952,24 +945,24 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Base {
+class Foo {
 private:
     int i;
 public:
-    Base(int i) : i(i) { // правильный вариант
-        cout << "Data member i was initialized to: " << Base::i;
+    Foo(int i) : i(i) { // правильный вариант
+        cout << "Data member i was initialized to: " << Foo::i;
     };
 
-/*    Base(int i) { // Ошибка
+/*    Foo(int i) { // Ошибка
         i = i;
-        cout << "Data member i was initialized to: " <<  Base::i; // Ошибка: переменная i класса Base инициализируется не должным
+        cout << "Data member i was initialized to: " <<  Foo::i; // Ошибка: переменная i класса Foo инициализируется не должным
         // образом, выводя случайные значения из мусора в дальнейшем
         // Вывод: Data member i was initialized to: 432910816
     }*/
 };
 
 int main() {
-    Base base(10); // Data member i was initialized to: 10
+    Foo foo(10); // Data member i was initialized to: 10
     return 0;
 }
 ```
@@ -1039,7 +1032,9 @@ int main() {
     Base *d = new Derived();
     // Constructing Base
     // Constructing Derived
+
     cout << endl;
+
     delete d;
     // Destructing Derived
     // Destructing Base
@@ -1058,16 +1053,15 @@ int main() {
 Пример:
 ```c++
 #include <iostream>
-#include <fstream>
 using namespace std;
 
-class Base {
+class Foo {
 public:
     virtual void pure_virtual_function() = 0;
 };
 
 int main() {
-    // Base base; // Ошибка создания объекта типа абстрактного класса
+    // Foo foo; // Ошибка создания объекта типа абстрактного класса
     return 0;
 }
 ```
@@ -1099,8 +1093,10 @@ public:
 
 int main() {
     Base base;
+
     base.set_value(5);
-    cout << "The variable was setted to: " << base.get_value(); // The variable was setted to: 5
+
+    cout << "The variable s was set to: " << base.get_value(); // The variable s was set to: 5
     return 0;
 }
 ```
@@ -1116,16 +1112,16 @@ int main() {
 Класс также можно разделить на описание и реализацию и подключить его в виде библиотеки.
 Пример:
 
-Содержимое файла **Base.h**. Описание класса.
+Содержимое файла **Foo.h**. Описание класса.
 ```c++
-#ifndef OOP_LEARN_BASE_H
-#define OOP_LEARN_BASE_H
+#ifndef OOP_LEARN_FOO_H
+#define OOP_LEARN_FOO_H
 
-class Base {
+class Foo {
 private:
     int s;
 public:
-    Base();
+    Foo();
 
     int set_value(int a);
 
@@ -1135,22 +1131,22 @@ public:
 #endif
 ```
 
-Содержимое файла **Base.cpp**. Имплементация класса.
+Содержимое файла **Foo.cpp**. Имплементация класса.
 ```c++
 #include <iostream>
-#include "Base.h"
+#include "Foo.h"
 using namespace std;
 
-Base:: Base() {
+Foo:: Foo() {
     s = 0;
-    cout << "Constructor was called in the Base header file" << endl;
+    cout << "Constructor was called in the Foo header file" << endl;
 }
 
-int Base::set_value(int a) {
+int Foo::set_value(int a) {
     s = a;
 }
 
-int Base::get_value() {
+int Foo::get_value() {
     return s;
 }
 ```
@@ -1158,13 +1154,15 @@ int Base::get_value() {
 Программа с классом Base, реализованным в виде библиотеки:
 ```c++
 #include <iostream>
-#include "Base.h"
+#include "Foo.h"
 using namespace std;
 
 int main() {
-    Base base; // Constructor was called in Base header file
-    base.set_value(5);
-    cout << "The variable was setted to: " << base.get_value(); // The variable was setted to: 5
+    Foo foo; // Constructor was called in the Foo header file
+
+    foo.set_value(5);
+
+    cout << "The variable was set to: " << foo.get_value(); // The variable was set to: 5
     return 0;
 }
 ```
@@ -1193,11 +1191,11 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class A {
+class Foo {
 private:
-    int *arr;
+    int* arr;
 public:
-    A() {
+    Foo() {
         arr = new int[3]{1, 2, 3};
         throw runtime_error("error");
     }
@@ -1205,9 +1203,9 @@ public:
 
 int main() {
     try {
-        A a;
+        Foo foo;
     }
-    catch (exception) {
+    catch (exception e) {
 
     }
 }
@@ -1230,11 +1228,11 @@ int main() {
 
 using namespace std;
 
-class A {
+class Foo {
 private:
     unique_ptr <int[]> arr;
 public:
-    A() {
+    Foo() {
         arr = unique_ptr<int[]>(new int[3]{1, 2, 3});
         throw runtime_error("error");
     }
@@ -1242,7 +1240,7 @@ public:
 
 int main() {
     try {
-        A a;
+        Foo foo;
     }
     catch (exception) {
 
@@ -1266,42 +1264,31 @@ int main() {
 #include <iostream>
 using namespace std;
 
-class Sample {
+class Foo {
 public:
-    Sample() {
-        cout << "Sample constructor" << endl;
-    }
-
-    ~Sample() {
-        cout << "Sample destructor" << endl;
+    ~Foo() {
+        cout << "Foo's destructor" << endl;
     }
 };
 
-class Base {
+class Bar {
 private:
-    int *a;
+    Foo foo;
 public:
-    Base() {
-        Sample b;
+    Bar() {
+        foo = Foo();
 
         throw runtime_error("error");
     }
 
-    ~Base() {
-        delete[] a;
+    ~Bar() {
+        cout << "Bar's destructor" << endl;
     }
 };
 
 int main() {
-    try {
-        Base base;
-    }
-    catch (exception e) {
-
-    }
-
+    Bar bar;
     return 0;
+    // Foo's destructor
 }
-// Sample constructor
-// Sample destructor
 ```
